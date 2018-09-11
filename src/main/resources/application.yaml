@@ -1,0 +1,20 @@
+security:
+  jwt:
+    client-id: xxxxx
+    client-secret: xxxx
+    grant-type: password
+    scope-read: read
+    scope-write: write
+    resource-ids: xxxx
+  signing-key: xxxx
+  encoding-strength: xxxx
+  security-realm: xxxx
+  oauth2:
+    resource:
+      filter-order: 3
+
+db:
+  url: xxxxx
+  username: xxxx
+  password: xxxx
+  driverClassName: org.postgresql.Driver
