@@ -1,9 +1,11 @@
 package com.mokobike.repository;
 
 import com.mokobike.domain.User;
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository{
 
     User findByUsername(String username);
+
+    List<User> findAllUsers();
 }

@@ -1,39 +1,26 @@
 package com.mokobike.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 
-import javax.persistence.*;
-import java.util.List;
-
-@Entity
-@Table(name = "app_user")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+
     private Long id;
-
-    @Column(name = "username")
     private String username;
-
-    @Column(name = "password")
-    @JsonIgnore
     private String password;
-
-    @Column(name = "first_name")
     private String firstName;
-
-    @Column(name = "last_name")
     private String lastName;
+    private Role role;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns
-            = @JoinColumn(name = "user_id",
-            referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id",
-                    referencedColumnName = "id"))
-    private List<Role> roles;
+
+    public User(Long id, String username, String password, String firstName, String lastName, Role role){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -75,11 +62,30 @@ public class User {
         this.lastName = lastName;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getUsername(), user.getUsername()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getFirstName(), user.getFirstName()) &&
+                Objects.equals(getLastName(), user.getLastName()) &&
+                Objects.equals(getRole(), user.getRole());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getUsername(), getPassword(), getFirstName(), getLastName(), getRole());
     }
 }

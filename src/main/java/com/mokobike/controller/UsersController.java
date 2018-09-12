@@ -1,7 +1,7 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.User;
-import com.mokobike.service.UserService;
+import com.mokobike.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,11 +13,12 @@ import java.util.List;
 public class UsersController {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<User> getUsers(){
-        return userService.findAllUsers();
+        return userRepository.findAllUsers();
     }
+
 }
 
