@@ -1,4 +1,4 @@
-package com.mokobike.service.implementation;
+package com.mokobike.implementation;
 
 import com.mokobike.repository.UserRepository;
 import com.mokobike.domain.User;

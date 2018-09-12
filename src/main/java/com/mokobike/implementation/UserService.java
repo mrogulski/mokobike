@@ -1,4 +1,4 @@
-package com.mokobike.service.implementation;
+package com.mokobike.implementation;
 
 import com.mokobike.domain.User;
 import com.mokobike.mapper.UserMapper;
