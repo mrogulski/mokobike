@@ -34,7 +34,8 @@ public class UserService implements UserRepository{
             "\tapp_role.description,\n" +
             "\tapp_role.role_name\n" +
             "from app_user, app_role \n" +
-            "where app_user.role_id= app_role.id ";
+            "where app_user.role_id= app_role.id  \n" +
+            "order by id limit ? offset ?";
 
     public static final UserMapper USER_MAPPER= new UserMapper();
 
@@ -47,8 +48,9 @@ public class UserService implements UserRepository{
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return jdbcTemplate.query(SQL_SELECT_ALLUSERS, USER_MAPPER);
+    public List<User> findAllUsers(int page, int size) {
+        int offset = page * size - size;
+        return jdbcTemplate.query(SQL_SELECT_ALLUSERS, USER_MAPPER, size, offset);
     }
 
 

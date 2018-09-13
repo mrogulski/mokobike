@@ -7,5 +7,5 @@ public interface UserRepository{
 
     User findByUsername(String username);
 
-    List<User> findAllUsers();
+    List<User> findAllUsers(int page, int size);
 }
