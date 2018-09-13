@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public class UserServiceImpl implements UserRepository{
+public class UserService implements UserRepository{
 
     private static final String SQL_SELECT_USER_BY_USERNAME = "select \n" +
             "\tapp_user.id,\n" +
