@@ -37,6 +37,8 @@ public class UserService implements UserRepository{
             "where app_user.role_id= app_role.id  \n" +
             "order by id limit ? offset ?";
 
+    private static final String SQL_SELECT_ALLUSERS_COUNT = "select count(*) from app_user";
+
     public static final UserMapper USER_MAPPER= new UserMapper();
 
     @Autowired
@@ -51,6 +53,11 @@ public class UserService implements UserRepository{
     public List<User> findAllUsers(int page, int size) {
         int offset = page * size - size;
         return jdbcTemplate.query(SQL_SELECT_ALLUSERS, USER_MAPPER, size, offset);
+    }
+
+    @Override
+    public int usersCount(){
+        return jdbcTemplate.queryForObject(SQL_SELECT_ALLUSERS_COUNT, new Object[]{}, Integer.class);
     }
 
 

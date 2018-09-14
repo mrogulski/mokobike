@@ -5,30 +5,38 @@ import com.mokobike.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-
-
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping( value = "/users")
 public class UsersController {
 
+    List<Object> response = new ArrayList<>();
+    Map<String, Integer> count = new HashMap<>();
+    List<User> users;
+
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.GET, params = {"page, size"})
+    @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     @ResponseBody
-    public List<User> getUsers(
-            @RequestParam("page") int page,
-            @RequestParam("size") int size,
-            UriComponentsBuilder uriBuilder,
-            HttpServletResponse response
+    public List<Object> getUsers(
+            @RequestParam(name="page") int page,
+            @RequestParam(name="size") int size
     ){
-        return userRepository.findAllUsers(page, size);
+
+        users = userRepository.findAllUsers(page, size);
+        count.put("total_users", userRepository.usersCount());
+
+        response.add(count);
+        response.add(users);
+
+        return response;
     }
 
 }

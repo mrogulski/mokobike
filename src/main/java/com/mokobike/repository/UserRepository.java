@@ -8,4 +8,6 @@ public interface UserRepository{
     User findByUsername(String username);
 
     List<User> findAllUsers(int page, int size);
+
+    int usersCount();
 }
