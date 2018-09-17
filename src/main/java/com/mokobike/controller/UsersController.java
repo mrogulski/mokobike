@@ -15,10 +15,6 @@ import java.util.Map;
 @RequestMapping( value = "/users")
 public class UsersController {
 
-    List<Object> response = new ArrayList<>();
-    Map<String, Integer> count = new HashMap<>();
-    List<User> users;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -29,6 +25,9 @@ public class UsersController {
             @RequestParam(name="page") int page,
             @RequestParam(name="size") int size
     ){
+        List<Object> response = new ArrayList<>();
+        Map<String, Integer> count = new HashMap<>();
+        List<User> users;
 
         users = userRepository.findAllUsers(page, size);
         count.put("total_users", userRepository.usersCount());
