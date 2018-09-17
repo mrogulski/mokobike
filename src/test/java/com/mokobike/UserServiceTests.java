@@ -1,9 +1,11 @@
 package com.mokobike;
 
+import com.mokobike.controller.UserController;
 import com.mokobike.implementation.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -28,13 +30,16 @@ public class UserServiceTests extends TestCase {
     @MockBean
     private UserService userService;
 
+    @Autowired
+    public UserController controller;
+
     @Test
-    public void smokeTest() throws Exception{
+    public void userServiceSmokeTest() throws Exception{
         assertNotNull(controller);
     }
 
     @Test
-    public void statusOKTest() throws Exception{
+    public void getUserControllerTest() throws Exception{
         mockMvc
                 .perform(
                         MockMvcRequestBuilders.get("/users?page=1&size=10")
@@ -53,7 +58,7 @@ public class UserServiceTests extends TestCase {
     }
 
     @Test
-    public void authorizationTest() throws Exception{
+    public void userControllerAuthTest() throws Exception{
         mockMvc
                 .perform(
                         MockMvcRequestBuilders.get("/users?page=1&size=10")
