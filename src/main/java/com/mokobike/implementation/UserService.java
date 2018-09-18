@@ -24,7 +24,7 @@ public class UserService implements UserRepository{
             "where app_user.role_id= app_role.id \n" +
             "and app_user.username =  ?";
 
-    private static final String SQL_SELECT_ALLUSERS = "select \n" +
+    private static final String SQL_SELECT_ALL_USERS = "select \n" +
             "\tapp_user.id,\n" +
             "\tapp_user.first_name,\n" +
             "\tapp_user.last_name,\n" +
@@ -37,9 +37,9 @@ public class UserService implements UserRepository{
             "where app_user.role_id= app_role.id  \n" +
             "order by id limit ? offset ?";
 
-    private static final String SQL_SELECT_ALLUSERS_COUNT = "select count(*) from app_user";
+    private static final String SQL_SELECT_ALL_USERS_COUNT = "select count(*) from app_user";
 
-    public static final UserMapper USER_MAPPER= new UserMapper();
+    public static final UserMapper USER_MAPPER = new UserMapper();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -52,12 +52,12 @@ public class UserService implements UserRepository{
     @Override
     public List<User> findAllUsers(int page, int size) {
         int offset = page * size - size;
-        return jdbcTemplate.query(SQL_SELECT_ALLUSERS, USER_MAPPER, size, offset);
+        return jdbcTemplate.query(SQL_SELECT_ALL_USERS, USER_MAPPER, size, offset);
     }
 
     @Override
     public int usersCount(){
-        return jdbcTemplate.queryForObject(SQL_SELECT_ALLUSERS_COUNT, new Object[]{}, Integer.class);
+        return jdbcTemplate.queryForObject(SQL_SELECT_ALL_USERS_COUNT, new Object[]{}, Integer.class);
     }
 
 
