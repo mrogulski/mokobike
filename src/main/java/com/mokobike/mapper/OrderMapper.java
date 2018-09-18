@@ -12,7 +12,7 @@ public class OrderMapper implements RowMapper<Order> {
         Order order = new Order(
                 rs.getLong("id"),
                 rs.getString("status"),
-                rs.getDate("createdDate"),
+                rs.getDate("created_date"),
                 rs.getDate("date_from"),
                 rs.getDate("date_to"),
                 rs.getLong("user_id"),

@@ -18,7 +18,7 @@ public interface OrderRepository {
 
     Order save(Order order);
 
-    void update(Order order);
+    Order update(Order order);
 
     void delete(Long orderID);
 

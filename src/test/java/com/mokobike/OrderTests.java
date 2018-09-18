@@ -14,50 +14,50 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class OrderTests extends TestCase{
 
-    @MockBean
-    private OrderService orderService;
-
-    @Autowired
-    public OrderController controller;
-
-    @Test
-    public void orderControllerSmokeTest() throws Exception{
-        assertNotNull(controller);
-    }
-
-    @Test
-    public void orderControllerAuthTest() throws Exception{
-        mockMvc
-                .perform(
-                        MockMvcRequestBuilders.get("/orders?page=1&size=10")
-                )
-                .andExpect(
-                        MockMvcResultMatchers.status().isUnauthorized()
-                )
-                .andExpect(
-                        content().string(
-                                containsString("unauthorized")
-                        )
-                );
-    }
-
-    @Test
-    public void getOrderControllerTest() throws Exception{
-        mockMvc
-                .perform(
-                        MockMvcRequestBuilders.get("/orders?page=1&size=10")
-                                .header("Authorization", "Bearer " + token)
-                ).andDo(
-                print()
-        )
-                .andExpect(
-                        MockMvcResultMatchers.status().isOk()
-                )
-                .andExpect(
-                        content().string(
-                                containsString("total_orders")
-                        )
-                );
-    }
+//    @MockBean
+//    private OrderService orderService;
+//
+//    @Autowired
+//    public OrderController controller;
+//
+//    @Test
+//    public void orderControllerSmokeTest() throws Exception{
+//        assertNotNull(controller);
+//    }
+//
+//    @Test
+//    public void orderControllerAuthTest() throws Exception{
+//        mockMvc
+//                .perform(
+//                        MockMvcRequestBuilders.get("/orders?page=1&size=10")
+//                )
+//                .andExpect(
+//                        MockMvcResultMatchers.status().isUnauthorized()
+//                )
+//                .andExpect(
+//                        content().string(
+//                                containsString("unauthorized")
+//                        )
+//                );
+//    }
+//
+//    @Test
+//    public void getOrderControllerTest() throws Exception{
+//        mockMvc
+//                .perform(
+//                        MockMvcRequestBuilders.get("/orders?page=1&size=10")
+//                                .header("Authorization", "Bearer " + token)
+//                ).andDo(
+//                print()
+//        )
+//                .andExpect(
+//                        MockMvcResultMatchers.status().isOk()
+//                )
+//                .andExpect(
+//                        content().string(
+//                                containsString("total_orders")
+//                        )
+//                );
+//    }
 
 }
