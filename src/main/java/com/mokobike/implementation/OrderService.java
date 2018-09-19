@@ -24,7 +24,8 @@ public class OrderService implements OrderRepository {
     private static final String SQL_SELECT_ALL_ORDERS_COUNT = "select count(*) from orders";
     private static final String SQL_INSERT_INTO_ORDER =
             "insert into orders(\n" +
-                    "status,\n" +
+                    "\tid,\n" +
+                    "\tstatus,\n" +
                     "created_date,\n" +
                     "date_from,\n" +
                     "date_to,\n" +
@@ -106,7 +107,6 @@ public class OrderService implements OrderRepository {
     @Override
     public Order save(Order order) {
         jdbcTemplate.update(SQL_INSERT_INTO_ORDER,
-                order.getStatus(),
                 order.getCreatedDate(),
                 order.getDateFrom(),
                 order.getDateTo(),
@@ -120,8 +120,7 @@ public class OrderService implements OrderRepository {
                 order.getPickupTo(),
                 order.getPickupDistance(),
                 order.getPickupValue(),
-                order.getFinalValue(),
-                order.getId()
+                order.getFinalValue()
         );
         return  jdbcTemplate.queryForObject(SQL_SELECT_LATEST_ORDER, ORDER_MAPPER);
     }
@@ -150,6 +149,11 @@ public class OrderService implements OrderRepository {
     @Override
     public void delete(Long orderID) {
         jdbcTemplate.update(SQL_DELETE_ORDER, orderID);
+    }
+
+    @Override
+    public Integer findLatestOrder(){
+        return jdbcTemplate.queryForObject(SQL_SELECT_LATEST_ORDER, new Object[]{}, Integer.class);
     }
 
 }

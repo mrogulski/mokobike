@@ -22,4 +22,6 @@ public interface OrderRepository {
 
     void delete(Long orderID);
 
+    Integer findLatestOrder();
+
 }
