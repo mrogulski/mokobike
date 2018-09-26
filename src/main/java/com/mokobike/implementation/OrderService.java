@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 @Repository
 public class OrderService implements OrderRepository {
@@ -23,57 +24,40 @@ public class OrderService implements OrderRepository {
     private static final String SQL_SELECT_ALL_ORDERS_PAGINATION = "select * from orders order by id limit ? offset ?";
     private static final String SQL_SELECT_ALL_ORDERS_COUNT = "select count(*) from orders";
     private static final String SQL_INSERT_INTO_ORDER =
-            "insert into orders(\n" +
-                    "\tid,\n" +
-                    "\tstatus,\n" +
-                    "created_date,\n" +
-                    "date_from,\n" +
-                    "date_to,\n" +
-                    "user_id ,\n" +
-                    "adult_bike,\n" +
-                    "child_bike,\n" +
-                    "helmet,\n" +
-                    "lock,\n" +
-                    "pickup,\n" +
-                    "pickup_from,\n" +
-                    "pickup_to,\n" +
-                    "pickup_distance,\n" +
-                    "pickup_value,\n" +
-                    "initial_value,\n" +
-                    "final_value\n" +
-            ")values(\n" +
-                    ":status,\n" +
-                    ":created_date,\n" +
-                    ":date_from,\n" +
-                    ":date_to,\n" +
-                    ":user_id ,\n" +
-                    ":adult_bike,\n" +
-                    ":child_bike,\n" +
-                    ":helmet,\n" +
-                    ":lock,\n" +
-                    ":pickup,\n" +
-                    ":pickup_from,\n" +
-                    ":pickup_to,\n" +
-                    ":pickup_distance,\n" +
-                    ":pickup_value,\n" +
-                    ":initial_value,\n" +
-                    ":final_value\n" +
-            ")";
+            "insert into orders(" +
+                    "status," +
+                    "created_date," +
+                    "date_from," +
+                    "date_to," +
+                    "user_id ," +
+                    "adult_bike," +
+                    "child_bike," +
+                    "helmet," +
+                    "lock," +
+                    "pickup," +
+                    "pickup_from," +
+                    "pickup_to," +
+                    "pickup_distance," +
+                    "pickup_value," +
+                    "initial_value," +
+                    "final_value" +
+            ")values" +
+                    "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_UPDATE_ORDER =
-            "update orders set \n" +
-                    "status = ?,\n" +
-                    "date_from = ?,\n" +
-                    "date_to = ?,\n" +
-                    "adult_bike = ?,\n" +
-                    "child_bike = ?,\n" +
-                    "helmet = ?,\n" +
-                    "lock = ?,\n" +
-                    "pickup = ?,\n" +
-                    "pickup_from = ?,\n" +
-                    "pickup_to = ?,\n" +
-                    "pickup_distance = ?,\n" +
-                    "pickup_value = ?,\n" +
-                    "final_value = ?\n" +
+            "update orders set " +
+                    "status = ?," +
+                    "date_from = ?," +
+                    "date_to = ?," +
+                    "adult_bike = ?," +
+                    "child_bike = ?," +
+                    "helmet = ?," +
+                    "lock = ?," +
+                    "pickup = ?," +
+                    "pickup_from = ?," +
+                    "pickup_to = ?," +
+                    "pickup_distance = ?," +
+                    "pickup_value = ?," +
+                    "final_value = ?" +
             "where id = ?";
     private static final String SQL_DELETE_ORDER = "update orders set status = inactive where id = ?";
 
@@ -105,8 +89,9 @@ public class OrderService implements OrderRepository {
     }
 
     @Override
-    public Order save(Order order) {
+    public void save(Order order) {
         jdbcTemplate.update(SQL_INSERT_INTO_ORDER,
+                order.getStatus(),
                 order.getCreatedDate(),
                 order.getDateFrom(),
                 order.getDateTo(),
@@ -120,9 +105,9 @@ public class OrderService implements OrderRepository {
                 order.getPickupTo(),
                 order.getPickupDistance(),
                 order.getPickupValue(),
+                order.getInitialValue(),
                 order.getFinalValue()
         );
-        return  jdbcTemplate.queryForObject(SQL_SELECT_LATEST_ORDER, ORDER_MAPPER);
     }
 
     @Override
@@ -152,8 +137,9 @@ public class OrderService implements OrderRepository {
     }
 
     @Override
-    public Integer findLatestOrder(){
-        return jdbcTemplate.queryForObject(SQL_SELECT_LATEST_ORDER, new Object[]{}, Integer.class);
+    public Order findLatestOrder(){
+        //tu jest blad, zwraca caly obiekt
+        return jdbcTemplate.queryForObject(SQL_SELECT_LATEST_ORDER, ORDER_MAPPER);
     }
 
 }

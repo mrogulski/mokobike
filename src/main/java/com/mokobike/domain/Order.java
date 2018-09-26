@@ -24,25 +24,11 @@ public class Order {
     private Long initialValue;
     private Long finalValue;
 
-    public Order(
-        Date dateFrom,
-        Date dateTo,
-        Long userId,
-        Integer adultBike,
-        Integer childBike,
-        Integer helmet,
-        Integer lock,
-        Boolean pickup,
-        String pickupFrom,
-        String pickupTo,
-        Long pickupDistance,
-        Long pickupValue,
-        Long initialValue,
-        Long finalValue
+    public Order(){}
 
-    ){
-        this.status = "new";
-        this.createdDate = new Date();
+    public Order(String status, Date createdDate, Date dateFrom, Date dateTo, Long userId, Integer adultBike, Integer childBike, Integer helmet, Integer lock, Boolean pickup, String pickupFrom, String pickupTo, Long pickupDistance, Long pickupValue, Long initialValue, Long finalValue) {
+        this.status = status;
+        this.createdDate = createdDate;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.userId = userId;
@@ -102,10 +88,6 @@ public class Order {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -116,10 +98,6 @@ public class Order {
 
     public Date getCreatedDate() {
         return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public Date getDateFrom() {
@@ -222,10 +200,6 @@ public class Order {
         return initialValue;
     }
 
-    public void setInitialValue(Long initialValue) {
-        this.initialValue = initialValue;
-    }
-
     public Long getFinalValue() {
         return finalValue;
     }
@@ -262,5 +236,28 @@ public class Order {
     public int hashCode() {
 
         return Objects.hash(getId(), getStatus(), getCreatedDate(), getDateFrom(), getDateTo(), getUserId(), getAdultBike(), getChildBike(), getHelmet(), getLock(), getPickup(), getPickupFrom(), getPickupTo(), getPickupDistance(), getPickupValue(), getInitialValue(), getFinalValue());
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", createdDate=" + createdDate +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
+                ", userId=" + userId +
+                ", adultBike=" + adultBike +
+                ", childBike=" + childBike +
+                ", helmet=" + helmet +
+                ", lock=" + lock +
+                ", pickup=" + pickup +
+                ", pickupFrom='" + pickupFrom + '\'' +
+                ", pickupTo='" + pickupTo + '\'' +
+                ", pickupDistance=" + pickupDistance +
+                ", pickupValue=" + pickupValue +
+                ", initialValue=" + initialValue +
+                ", finalValue=" + finalValue +
+                '}';
     }
 }

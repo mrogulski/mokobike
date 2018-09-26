@@ -16,12 +16,12 @@ public interface OrderRepository {
 
     int ordersCount();
 
-    Order save(Order order);
+    void save(Order order);
 
     Order update(Order order);
 
     void delete(Long orderID);
 
-    Integer findLatestOrder();
+    Order findLatestOrder();
 
 }

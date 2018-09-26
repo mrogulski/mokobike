@@ -4,17 +4,14 @@ import com.mokobike.domain.Order;
 import com.mokobike.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping( value = "/orders")
@@ -42,12 +39,12 @@ public class OrderController {
         return response;
     }
 
-    @PostMapping
+    @PostMapping( value = "/new")
     @ResponseBody
-    public Integer save(@RequestBody Order order){
-        Integer orderID;
+    public Long save(@RequestBody Order order){
+        Long orderID;
         orderRepository.save(order);
-        orderID = orderRepository.findLatestOrder();
+        orderID = orderRepository.findLatestOrder().getId();
 
         return orderID;
     }
