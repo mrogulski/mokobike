@@ -4,6 +4,7 @@ import com.mokobike.domain.Order;
 import com.mokobike.mapper.OrderMapper;
 import com.mokobike.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -64,7 +65,13 @@ public class OrderService implements OrderRepository {
 
     @Override
     public Order findByID(Long ID) {
-        return  jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, ORDER_MAPPER, ID);
+        Order order;
+        try{
+            order = jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, ORDER_MAPPER, ID);
+        }catch (EmptyResultDataAccessException e){
+            order = null;
+        }
+        return order;
     }
 
     @Override

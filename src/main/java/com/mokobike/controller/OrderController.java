@@ -1,9 +1,12 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.Order;
+import com.mokobike.error.Error;
+import com.mokobike.exceptions.order.OrderNotFoundException;
 import com.mokobike.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +50,17 @@ public class OrderController {
         orderID = orderRepository.findLatestOrder().getId();
 
         return orderID;
+    }
+
+    @GetMapping(value = "/{order_id}")
+    @ResponseBody
+    public Order getById( @PathVariable("order_id") long orderID){
+        Order order = orderRepository.findByID(orderID);
+        if(order == null){
+            throw new OrderNotFoundException(orderID);
+        }
+
+        return order;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.mokobike;
+package com.mokobike.error;
 
 public class Error {
 
