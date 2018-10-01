@@ -64,7 +64,11 @@ public class OrderController {
     @ResponseBody
     public Order updateOrder(@PathVariable("order_id") long orderID, @RequestBody Order order){
         order.setId(orderID);
-        return orderRepository.update(order);
+        Order updatedOrder = orderRepository.update(order);
+        if(updatedOrder == null){
+            throw new OrderNotFoundException(orderID);
+        }
+        return updatedOrder;
     }
 
 }

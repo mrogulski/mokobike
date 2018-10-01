@@ -118,24 +118,35 @@ public class OrderService implements OrderRepository {
 
     @Override
     public Order update(Order order) {
-        jdbcTemplate.update(SQL_UPDATE_ORDER,
-                order.getStatus(),
-                order.getDateFrom(),
-                order.getDateTo(),
-                order.getAdultBike(),
-                order.getChildBike(),
-                order.getHelmet(),
-                order.getLock(),
-                order.getPickup(),
-                order.getPickupFrom(),
-                order.getPickupTo(),
-                order.getPickupDistance(),
-                order.getPickupValue(),
-                order.getFinalValue(),
-                order.getId()
-        );
 
-        return  jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, ORDER_MAPPER, order.getId());
+        Order updatedOrder;
+
+        try{
+            //first to check if order is available
+            updatedOrder = jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, ORDER_MAPPER, order.getId());
+
+            jdbcTemplate.update(SQL_UPDATE_ORDER,
+                    order.getStatus(),
+                    order.getDateFrom(),
+                    order.getDateTo(),
+                    order.getAdultBike(),
+                    order.getChildBike(),
+                    order.getHelmet(),
+                    order.getLock(),
+                    order.getPickup(),
+                    order.getPickupFrom(),
+                    order.getPickupTo(),
+                    order.getPickupDistance(),
+                    order.getPickupValue(),
+                    order.getFinalValue(),
+                    order.getId()
+            );
+
+            updatedOrder = jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, ORDER_MAPPER, order.getId());
+        }catch (EmptyResultDataAccessException e){
+            updatedOrder = null;
+        }
+        return updatedOrder;
     }
 
     @Override
