@@ -118,7 +118,7 @@ public class OrderService implements OrderRepository {
 
     @Override
     public Order update(Order order) {
-        jdbcTemplate.update(SQL_SELECT_LATEST_ORDER,
+        jdbcTemplate.update(SQL_UPDATE_ORDER,
                 order.getStatus(),
                 order.getDateFrom(),
                 order.getDateTo(),
@@ -131,9 +131,10 @@ public class OrderService implements OrderRepository {
                 order.getPickupTo(),
                 order.getPickupDistance(),
                 order.getPickupValue(),
-                order.getInitialValue(),
-                order.getFinalValue()
+                order.getFinalValue(),
+                order.getId()
         );
+
         return  jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, ORDER_MAPPER, order.getId());
     }
 
@@ -144,7 +145,6 @@ public class OrderService implements OrderRepository {
 
     @Override
     public Order findLatestOrder(){
-        //tu jest blad, zwraca caly obiekt
         return jdbcTemplate.queryForObject(SQL_SELECT_LATEST_ORDER, ORDER_MAPPER);
     }
 

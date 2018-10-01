@@ -60,4 +60,11 @@ public class OrderController {
         return order;
     }
 
+    @PatchMapping(value = "/{order_id}")
+    @ResponseBody
+    public Order updateOrder(@PathVariable("order_id") long orderID, @RequestBody Order order){
+        order.setId(orderID);
+        return orderRepository.update(order);
+    }
+
 }
