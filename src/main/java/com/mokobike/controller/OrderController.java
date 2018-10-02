@@ -14,11 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 @RestController
 @RequestMapping( value = "/orders")
-public class OrderController {
+public class OrderController extends Controller{
 
     @Autowired
     OrderRepository orderRepository;
@@ -59,8 +57,16 @@ public class OrderController {
         if(order == null){
             throw new OrderNotFoundException(orderID);
         }
-
+        logger.info("someone is asking about order number " + orderID);
         return order;
+    }
+
+    @DeleteMapping(value = "/{order_id}" )
+    public void deleteOrder(@PathVariable("order_id") long orderID){
+        if(!orderRepository.delete(orderID)){
+            throw new OrderNotFoundException(orderID);
+        }
+        logger.info("someone trying to delete order number " + orderID);
     }
 
 }

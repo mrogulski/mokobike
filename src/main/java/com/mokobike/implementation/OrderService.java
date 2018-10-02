@@ -60,7 +60,7 @@ public class OrderService implements OrderRepository {
                     "pickup_value = ?," +
                     "final_value = ?" +
             "where id = ?";
-    private static final String SQL_DELETE_ORDER = "update orders set status = inactive where id = ?";
+    private static final String SQL_DELETE_ORDER = "update orders set status = 'cancelled' where id = ?";
 
 
     @Override
@@ -139,8 +139,13 @@ public class OrderService implements OrderRepository {
     }
 
     @Override
-    public void delete(Long orderID) {
-        jdbcTemplate.update(SQL_DELETE_ORDER, orderID);
+    public boolean delete(Long orderID) {
+        try{
+            jdbcTemplate.update(SQL_DELETE_ORDER, orderID);
+            return true;
+        }catch (EmptyResultDataAccessException e){
+            return false;
+        }
     }
 
     @Override

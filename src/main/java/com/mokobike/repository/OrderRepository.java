@@ -20,7 +20,7 @@ public interface OrderRepository {
 
     Order update(Order order);
 
-    void delete(Long orderID);
+    boolean delete(Long orderID);
 
     Order findLatestOrder();
 
