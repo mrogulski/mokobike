@@ -26,7 +26,24 @@ public class Order {
 
     public Order(){}
 
-    public Order(String status, Date createdDate, Date dateFrom, Date dateTo, Long userId, Integer adultBike, Integer childBike, Integer helmet, Integer lock, Boolean pickup, String pickupFrom, String pickupTo, Long pickupDistance, Long pickupValue, Long initialValue, Long finalValue) {
+    public Order(
+            String status,
+            Date createdDate,
+            Date dateFrom,
+            Date dateTo,
+            Long userId,
+            Integer adultBike,
+            Integer childBike,
+            Integer helmet,
+            Integer lock,
+            Boolean pickup,
+            String pickupFrom,
+            String pickupTo,
+            Long pickupDistance,
+            Long pickupValue,
+            Long initialValue,
+            Long finalValue
+    ) {
         this.status = status;
         this.createdDate = createdDate;
         this.dateFrom = dateFrom;

@@ -1,12 +1,10 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.Order;
-import com.mokobike.error.Error;
-import com.mokobike.exceptions.order.OrderNotFoundException;
+import com.mokobike.exceptions.NotFoundException;
 import com.mokobike.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +53,7 @@ public class OrderController extends Controller{
     public Order getById( @PathVariable("order_id") long orderID){
         Order order = orderRepository.findByID(orderID);
         if(order == null){
-            throw new OrderNotFoundException(orderID);
+            throw new NotFoundException(orderID);
         }
         logger.info("someone is asking about order number " + orderID);
         return order;
@@ -65,7 +63,7 @@ public class OrderController extends Controller{
     public void deleteOrder(@PathVariable("order_id") long orderID){
         Order order = orderRepository.findByID(orderID);
         if(order == null){
-            throw new OrderNotFoundException(orderID);
+            throw new NotFoundException(orderID);
         }else{
             orderRepository.delete(orderID);
         }

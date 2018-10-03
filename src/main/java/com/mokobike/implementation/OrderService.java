@@ -119,7 +119,7 @@ public class OrderService implements OrderRepository {
 
     @Override
     public Order update(Order order) {
-        jdbcTemplate.update(SQL_SELECT_LATEST_ORDER,
+        jdbcTemplate.update(SQL_UPDATE_ORDER,
                 order.getStatus(),
                 order.getDateFrom(),
                 order.getDateTo(),
