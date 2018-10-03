@@ -145,7 +145,7 @@ public class OrderService implements OrderRepository {
 
     @Override
     public Order findLatestOrder(){
-        //tu jest blad, zwraca caly obiekt
+
         return jdbcTemplate.queryForObject(SQL_SELECT_LATEST_ORDER, ORDER_MAPPER);
     }
 
