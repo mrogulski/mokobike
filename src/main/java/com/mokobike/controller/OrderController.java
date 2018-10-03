@@ -63,9 +63,13 @@ public class OrderController extends Controller{
 
     @DeleteMapping(value = "/{order_id}" )
     public void deleteOrder(@PathVariable("order_id") long orderID){
-        if(!orderRepository.delete(orderID)){
+        Order order = orderRepository.findByID(orderID);
+        if(order == null){
             throw new OrderNotFoundException(orderID);
+        }else{
+            orderRepository.delete(orderID);
         }
+
         logger.info("someone trying to delete order number " + orderID);
     }
 

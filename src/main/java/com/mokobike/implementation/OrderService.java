@@ -139,13 +139,8 @@ public class OrderService implements OrderRepository {
     }
 
     @Override
-    public boolean delete(Long orderID) {
-        try{
-            jdbcTemplate.update(SQL_DELETE_ORDER, orderID);
-            return true;
-        }catch (EmptyResultDataAccessException e){
-            return false;
-        }
+    public void delete(Long orderID) {
+        jdbcTemplate.update(SQL_DELETE_ORDER, orderID);
     }
 
     @Override
