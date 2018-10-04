@@ -123,7 +123,7 @@ public class OrderService implements OrderRepository {
 
         try{
             //first to check if order is available
-            updatedOrder = jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, ORDER_MAPPER, order.getId());
+            jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, ORDER_MAPPER, order.getId());
 
             jdbcTemplate.update(SQL_UPDATE_ORDER,
                     order.getStatus(),
