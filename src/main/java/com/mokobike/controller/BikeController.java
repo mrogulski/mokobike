@@ -1,6 +1,7 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.Bike;
+import com.mokobike.domain.Order;
 import com.mokobike.exceptions.NotFoundException;
 import com.mokobike.repository.BikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class BikeController extends Controller{
         return response;
     }
 
-    @PostMapping( value = "/new")
+    @PostMapping
     @ResponseBody
     public Long save(@RequestBody Bike bike){
         Long bikeID;
@@ -68,5 +69,17 @@ public class BikeController extends Controller{
         }
 
         logger.info("someone trying to delete bike number " + bikeID);
+    }
+
+
+    @PatchMapping(value = "/{bike_id}")
+    @ResponseBody
+    public Bike updateBike(@PathVariable("bike_id") long bikeID, @RequestBody Bike bike){
+        bike.setId(bikeID);
+        Bike updatedBike = bikeRepository.update(bike);
+        if(updatedBike == null){
+            throw new NotFoundException(bikeID);
+        }
+        return updatedBike;
     }
 }

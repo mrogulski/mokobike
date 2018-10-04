@@ -55,7 +55,7 @@ insert into orders(id,status,created_date,date_from,date_to,user_id ,adult_bike,
 insert into bikes(
   reg_number,
   producer,
-  model,
+  bike_model,
   bike_type,
   bike_condition,
   rental_price,

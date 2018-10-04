@@ -30,10 +30,10 @@ public class BikeService implements BikeRepository {
                     "model," +
                     "bike_type," +
                     "bike_condition ," +
-                    "rentalPrice," +
-                    "purchaseAmount," +
-                    "dateOfPurchase," +
-                    "inUse," +
+                    "rental_price," +
+                    "purchase_amount," +
+                    "date_of_purchase," +
+                    "in_use" +
                     ")values" +
                     "(?,?,?,?,?,?,?,?,?)";
     private static final String SQL_UPDATE_BIKE =
@@ -43,10 +43,11 @@ public class BikeService implements BikeRepository {
                     "model = ?," +
                     "bike_type = ?," +
                     "bike_condition = ?," +
-                    "rentalPrice = ?," +
-                    "purchaseAmount = ?," +
-                    "dateOfPurchase = ?," +
-                    "inUse = ?," ;
+                    "rental_price = ?," +
+                    "purchase_amount = ?," +
+                    "date_of_purchase = ?," +
+                    "in_use = ?" +
+            "where id = ?";
     private static final String SQL_DELETE_BIKE = "update bikes set bike_condition = 'TRASHED' where id = ?";
 
 
@@ -94,18 +95,30 @@ public class BikeService implements BikeRepository {
 
     @Override
     public Bike update(Bike bike) {
-        jdbcTemplate.update(SQL_UPDATE_BIKE,
-                bike.getRegNumber(),
-                bike.getProducer(),
-                bike.getModel(),
-                bike.getType(),
-                bike.getCondition(),
-                bike.getRentalPrice(),
-                bike.getPurchaseAmount(),
-                bike.getDateOfPurchase(),
-                bike.getInUse()
-        );
-        return  jdbcTemplate.queryForObject(SQL_SELECT_BIKE_BY_ID, BIKE_MAPPER, bike.getId());
+
+        Bike updatedBike;
+
+        try {
+            jdbcTemplate.queryForObject(SQL_SELECT_BIKE_BY_ID, BIKE_MAPPER, bike.getId());
+
+            jdbcTemplate.update(SQL_UPDATE_BIKE,
+                    bike.getRegNumber(),
+                    bike.getProducer(),
+                    bike.getModel(),
+                    bike.getType(),
+                    bike.getCondition(),
+                    bike.getRentalPrice(),
+                    bike.getPurchaseAmount(),
+                    bike.getDateOfPurchase(),
+                    bike.getInUse(),
+                    bike.getId()
+            );
+
+            updatedBike =  jdbcTemplate.queryForObject(SQL_SELECT_BIKE_BY_ID, BIKE_MAPPER, bike.getId());
+        }catch (EmptyResultDataAccessException e){
+        updatedBike = null;
+    }
+        return updatedBike;
     }
 
     @Override

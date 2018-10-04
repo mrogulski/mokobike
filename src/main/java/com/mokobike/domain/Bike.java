@@ -30,16 +30,8 @@ public class Bike {
         this.inUse = inUse;
     }
 
-    public Bike(String regNumber, String producer, String model, String type, String condition, Double rentalPrice, Double purchaseAmount, Date dateOfPurchase, Boolean inUse) {
-        this.regNumber = regNumber;
-        this.producer = producer;
-        this.model = model;
-        this.type = type;
-        this.condition = condition;
-        this.rentalPrice = rentalPrice;
-        this.purchaseAmount = purchaseAmount;
-        this.dateOfPurchase = dateOfPurchase;
-        this.inUse = inUse;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

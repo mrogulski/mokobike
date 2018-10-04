@@ -38,7 +38,7 @@ public class OrderController extends Controller{
         return response;
     }
 
-    @PostMapping( value = "/new")
+    @PostMapping
     @ResponseBody
     public Long save(@RequestBody Order order){
         Long orderID;

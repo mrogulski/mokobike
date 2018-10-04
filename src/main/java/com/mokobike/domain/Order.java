@@ -27,42 +27,6 @@ public class Order {
     public Order(){}
 
     public Order(
-            String status,
-            Date createdDate,
-            Date dateFrom,
-            Date dateTo,
-            Long userId,
-            Integer adultBike,
-            Integer childBike,
-            Integer helmet,
-            Integer lock,
-            Boolean pickup,
-            String pickupFrom,
-            String pickupTo,
-            Long pickupDistance,
-            Long pickupValue,
-            Long initialValue,
-            Long finalValue
-    ) {
-        this.status = status;
-        this.createdDate = createdDate;
-        this.dateFrom = dateFrom;
-        this.dateTo = dateTo;
-        this.userId = userId;
-        this.adultBike = adultBike;
-        this.childBike = childBike;
-        this.helmet = helmet;
-        this.lock = lock;
-        this.pickup = pickup;
-        this.pickupFrom = pickupFrom;
-        this.pickupTo = pickupTo;
-        this.pickupDistance = pickupDistance;
-        this.pickupValue = pickupValue;
-        this.initialValue = initialValue;
-        this.finalValue = finalValue;
-    }
-
-    public Order(
             Long id,
             String status,
             Date createdDate,
