@@ -6,9 +6,13 @@ import com.mokobike.repository.BikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BikeService implements BikeRepository {
@@ -49,6 +53,9 @@ public class BikeService implements BikeRepository {
                     "in_use = ?" +
             "where id = ?";
     private static final String SQL_DELETE_BIKE = "update bikes set bike_condition = 'TRASHED' where id = ?";
+
+    private static final String SQL_SELECT_ACTIVE_BIKES_COUNT = "select * from bikes where bike_type = ? and bike_condition not in ('TRASHED')";
+    private static final String SQL_SELECT_RENT_BIKES_COUNT = "select sum(?) from orders where date_from >= ? and date_to <= ?";//check this query
 
 
     @Override
@@ -130,4 +137,16 @@ public class BikeService implements BikeRepository {
     public Bike findLatestBike() {
         return jdbcTemplate.queryForObject(SQL_SELECT_LATEST_BIKE, BIKE_MAPPER);
     }
+
+    @Override
+    public Integer findAvailableBikes(Date dateFrom, Date dateTo, String type) {
+
+        Integer allActiveBikes = jdbcTemplate.queryForObject(SQL_SELECT_ACTIVE_BIKES_COUNT, new Object[]{type},Integer.class);
+        Integer rentBikes = jdbcTemplate.queryForObject(SQL_SELECT_RENT_BIKES_COUNT, new Object[]{dateFrom, dateTo, type},Integer.class);
+
+        Integer availableBikes = allActiveBikes - rentBikes;
+
+        return availableBikes;
+    }
+
 }

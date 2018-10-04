@@ -20,3 +20,9 @@ update orders set
 	pickup_value = null,
 	final_value = 300
 where id = 3
+
+--SQL_SELECT_ACTIVE_BIKES_COUNT
+select * from bikes where bike_type = 'ADULT' and bike_condition not in ('TRASHED')
+
+--SQL_SELECT_RENT_BIKES_COUNT
+select sum(adult_bike) from orders where date_from >= '2012-04-23 20:25:00' and date_to <= '2012-04-24 20:25:43'

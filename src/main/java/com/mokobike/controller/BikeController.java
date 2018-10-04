@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping( value = "/bikes")
 public class BikeController extends Controller{
+
     @Autowired
     BikeRepository bikeRepository;
 
