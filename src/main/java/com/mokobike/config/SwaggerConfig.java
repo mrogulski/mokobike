@@ -21,7 +21,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.mokobike.controller"))
-                .paths(PathSelectors.ant("/users*"))
+                .paths(PathSelectors.any())
                 .build();
     }
 

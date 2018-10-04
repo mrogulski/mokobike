@@ -5,7 +5,6 @@ import com.mokobike.implementation.OrderService;
 import org.junit.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -16,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class OrderTests extends TestCase{
 
-    @MockBean
+    @Autowired
     private OrderService orderService;
 
     @Autowired
@@ -61,5 +60,44 @@ public class OrderTests extends TestCase{
                         )
                 );
     }
+
+    @Test
+    public void findOrderByIdTest()throws Exception{
+        mockMvc
+                .perform(
+                        MockMvcRequestBuilders.get("/orders/1")
+                                .header("Authorization", "Bearer " + token)
+                ).andDo(
+                        print()
+                ).andExpect(
+                        MockMvcResultMatchers.status().isOk()
+                ).andExpect(
+                    content().string(
+                            containsString("orderId")
+                )
+
+        );
+
+    }
+
+    @Test
+    public void orderNotFoundExceptionTest() throws Exception{
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/orders/908098")
+                            .header("Authorization", "Bearer " + token)
+                ).andDo(
+                        print()
+                ).andExpect(
+                        MockMvcResultMatchers.status().isNotFound()
+                ).andExpect(
+                        content().string(
+                                containsString("Order 908098 not FOUND")
+                )
+        );
+    }
+
+
+
 
 }

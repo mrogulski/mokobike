@@ -58,6 +58,7 @@ public class OrderController extends Controller{
         return order;
     }
 
+<<<<<<< HEAD
     @DeleteMapping(value = "/{order_id}" )
     public void deleteOrder(@PathVariable("order_id") long orderID){
         Order order = orderRepository.findByID(orderID);
@@ -68,6 +69,17 @@ public class OrderController extends Controller{
         }
 
         logger.info("someone trying to delete order number " + orderID);
+=======
+    @PatchMapping(value = "/{order_id}")
+    @ResponseBody
+    public Order updateOrder(@PathVariable("order_id") long orderID, @RequestBody Order order){
+        order.setId(orderID);
+        Order updatedOrder = orderRepository.update(order);
+        if(updatedOrder == null){
+            throw new OrderNotFoundException(orderID);
+        }
+        return updatedOrder;
+>>>>>>> patch_order
     }
 
 }
