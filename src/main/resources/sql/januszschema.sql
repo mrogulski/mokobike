@@ -43,3 +43,16 @@ create table orders (
   initial_value double precision,
   final_value double precision
 )
+
+create table bikes (
+  id serial,
+  reg_number varchar,
+  producer varchar,
+  model varchar,
+  bike_type varchar,
+  bike_condition varchar,
+  rental_price double precision,
+  purchase_amount double precision,
+  date_of_purchase timestamp,
+  in_use boolean
+)

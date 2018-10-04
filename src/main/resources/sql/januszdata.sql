@@ -49,6 +49,27 @@ id,
 	380.00
 )
 
-
-
 insert into orders(id,status,created_date,date_from,date_to,user_id ,adult_bike,child_bike,helmet,lock,pickup,pickup_from,pickup_to,pickup_distance,pickup_value,initial_value,final_value)values(13,'new',now(),now(),now(),1,2,1,3,3,true,'Wolka proszewska 1','Wolka Proszewska 2',345.89,220.25,400.50,380.00)
+
+--insert inot bike
+insert into bikes(
+  reg_number,
+  producer,
+  model,
+  bike_type,
+  bike_condition,
+  rental_price,
+  purchase_amount,
+  date_of_purchase,
+  in_use
+)values(
+'WW9898',
+'Cross',
+'AMD-500',
+'ADULT',
+'NEW',
+50,
+1200,
+now(),
+false
+)

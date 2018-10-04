@@ -156,10 +156,7 @@ public class OrderService implements OrderRepository {
 
     @Override
     public Order findLatestOrder(){
-<<<<<<< HEAD
 
-=======
->>>>>>> patch_order
         return jdbcTemplate.queryForObject(SQL_SELECT_LATEST_ORDER, ORDER_MAPPER);
     }
 

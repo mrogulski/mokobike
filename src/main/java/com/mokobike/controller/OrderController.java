@@ -1,9 +1,9 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.Order;
-import com.mokobike.exceptions.order.OrderNotFoundException;
 import com.mokobike.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.mokobike.exceptions.NotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @RestController
 @RequestMapping( value = "/orders")
 public class OrderController extends Controller{
@@ -52,7 +53,7 @@ public class OrderController extends Controller{
     public Order getById( @PathVariable("order_id") long orderID){
         Order order = orderRepository.findByID(orderID);
         if(order == null){
-            throw new OrderNotFoundException(orderID);
+            throw new NotFoundException(orderID);
         }
         logger.info("someone is asking about order number " + orderID);
         return order;
@@ -62,12 +63,11 @@ public class OrderController extends Controller{
     @DeleteMapping(value = "/{order_id}" )
     public void deleteOrder(@PathVariable("order_id") long orderID) {
         Order order = orderRepository.findByID(orderID);
-        if (order == null) {
-            throw new OrderNotFoundException(orderID);
-        } else {
+        if(order == null){
+            throw new NotFoundException(orderID);
+        }else{
             orderRepository.delete(orderID);
         }
-
         logger.info("someone trying to delete order number " + orderID);
     }
 
@@ -77,10 +77,8 @@ public class OrderController extends Controller{
         order.setId(orderID);
         Order updatedOrder = orderRepository.update(order);
         if(updatedOrder == null){
-            throw new OrderNotFoundException(orderID);
+            throw new NotFoundException(orderID);
         }
         return updatedOrder;
-
     }
-
 }
