@@ -19,3 +19,11 @@ spring:
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
+
+logging:
+  level:
+    com.mokobike:
+      DEBUG
+      INFO
+      ERROR
+  file: /D:/KODZENIE/mokobike/target/application.log
