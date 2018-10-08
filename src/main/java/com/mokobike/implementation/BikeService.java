@@ -3,6 +3,8 @@ package com.mokobike.implementation;
 import com.mokobike.domain.Bike;
 import com.mokobike.mapper.BikeMapper;
 import com.mokobike.repository.BikeRepository;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +20,7 @@ import java.util.Map;
 public class BikeService implements BikeRepository {
 
     private static final BikeMapper BIKE_MAPPER = new BikeMapper();
+    private static final Logger log = LogManager.getLogger(BikeService.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -55,7 +58,7 @@ public class BikeService implements BikeRepository {
     private static final String SQL_DELETE_BIKE = "update bikes set bike_condition = 'TRASHED' where id = ?";
 
     private static final String SQL_SELECT_ACTIVE_BIKES_COUNT = "select * from bikes where bike_type = ? and bike_condition not in ('TRASHED')";
-    private static final String SQL_SELECT_RENT_BIKES_COUNT = "select sum(?) from orders where date_from >= ? and date_to <= ?";//check this query
+    private static final String SQL_SELECT_RENT_BIKES_COUNT = "select sum(%s) from orders where date_from >= '?' and date_to <= '?'";//check this query
 
 
     @Override
@@ -64,6 +67,7 @@ public class BikeService implements BikeRepository {
         try{
             bike = jdbcTemplate.queryForObject(SQL_SELECT_BIKE_BY_ID, BIKE_MAPPER, ID);
         }catch (EmptyResultDataAccessException e){
+            log.error("", e);
             bike = null;
         }
         return bike;
@@ -123,8 +127,9 @@ public class BikeService implements BikeRepository {
 
             updatedBike =  jdbcTemplate.queryForObject(SQL_SELECT_BIKE_BY_ID, BIKE_MAPPER, bike.getId());
         }catch (EmptyResultDataAccessException e){
-        updatedBike = null;
-    }
+            log.error("", e);
+            updatedBike = null;
+        }
         return updatedBike;
     }
 
@@ -139,12 +144,18 @@ public class BikeService implements BikeRepository {
     }
 
     @Override
-    public Integer findAvailableBikes(Date dateFrom, Date dateTo, String type) {
-
-        Integer allActiveBikes = jdbcTemplate.queryForObject(SQL_SELECT_ACTIVE_BIKES_COUNT, new Object[]{type},Integer.class);
-        Integer rentBikes = jdbcTemplate.queryForObject(SQL_SELECT_RENT_BIKES_COUNT, new Object[]{dateFrom, dateTo, type},Integer.class);
-
-        Integer availableBikes = allActiveBikes - rentBikes;
+    public Integer findAvailableBikes(String dateFrom, String dateTo, String type) {
+        Integer availableBikes;
+        try{
+            Integer allActiveBikes = jdbcTemplate.queryForObject(SQL_SELECT_ACTIVE_BIKES_COUNT, new Object[]{type},Integer.class);
+            Integer rentBikes = jdbcTemplate.queryForObject(
+                    String.format(SQL_SELECT_RENT_BIKES_COUNT, type),
+                    new Object[]{dateFrom, dateTo},Integer.class);
+            availableBikes = allActiveBikes - rentBikes;
+        }catch (EmptyResultDataAccessException e){
+            log.error("", e);
+            availableBikes = 0;
+        }
 
         return availableBikes;
     }

@@ -22,8 +22,9 @@ spring:
 
 logging:
   level:
-    com.mokobike:
-      DEBUG
-      INFO
-      ERROR
+    root: ERROR
+    com.mokobike: TRACE
+    org.springframework: WARN
+    org.springframework.jdbc: TRACE
+
   file: /D:/KODZENIE/mokobike/target/application.log
