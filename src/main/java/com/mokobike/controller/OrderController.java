@@ -1,6 +1,8 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.Order;
+import com.mokobike.exceptions.NoBikeAvailableException;
+import com.mokobike.repository.BikeRepository;
 import com.mokobike.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.mokobike.exceptions.NotFoundException;
@@ -18,6 +20,9 @@ public class OrderController extends Controller{
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    BikeRepository bikeRepository;
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN_USER')")
@@ -41,9 +46,20 @@ public class OrderController extends Controller{
     @PostMapping
     @ResponseBody
     public Long save(@RequestBody Order order){
+        
         Long orderID;
-        orderRepository.save(order);
-        orderID = orderRepository.findLatestOrder().getId();
+
+        String dateFrom = order.getDateFrom().toString();
+        String dateTo = order.getDateTo().toString();
+        Integer availableAdultBikes = bikeRepository.findAvailableBikes(dateFrom, dateTo, "ADULT");
+        Integer availableChildBikes = bikeRepository.findAvailableBikes(dateFrom, dateTo, "CHILD");
+
+        if(availableAdultBikes < order.getAdultBike() || availableChildBikes < order.getChildBike()){
+            throw new NoBikeAvailableException(dateFrom, dateTo, availableAdultBikes, availableChildBikes);
+        }else{
+            orderRepository.save(order);
+            orderID = orderRepository.findLatestOrder().getId();
+        }
 
         return orderID;
     }

@@ -8,13 +8,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @Repository
 public class BikeService implements BikeRepository {
@@ -57,9 +54,7 @@ public class BikeService implements BikeRepository {
             "where id = ?";
     private static final String SQL_DELETE_BIKE = "update bikes set bike_condition = 'TRASHED' where id = ?";
 
-    private static final String SQL_SELECT_ACTIVE_BIKES_COUNT = "select * from bikes where bike_type = ? and bike_condition not in ('TRASHED')";
-    private static final String SQL_SELECT_RENT_BIKES_COUNT = "select sum(%s) from orders where date_from >= '?' and date_to <= '?'";//check this query
-
+    private static final String SQL_SELECT_ACTIVE_BIKES_COUNT = "select count(*) from bikes where bike_type = ? and bike_condition not in ('TRASHED')";
 
     @Override
     public Bike findByID(Long ID) {
@@ -148,9 +143,14 @@ public class BikeService implements BikeRepository {
         Integer availableBikes;
         try{
             Integer allActiveBikes = jdbcTemplate.queryForObject(SQL_SELECT_ACTIVE_BIKES_COUNT, new Object[]{type},Integer.class);
-            Integer rentBikes = jdbcTemplate.queryForObject(
-                    String.format(SQL_SELECT_RENT_BIKES_COUNT, type),
-                    new Object[]{dateFrom, dateTo},Integer.class);
+            String columnName = type.toLowerCase() + "_bike";
+            Integer rentBikes = jdbcTemplate.queryForObject("select sum(" + columnName + ") from orders where date_from >= '" + dateFrom +"' and date_to <= '" + dateTo + "'", new Object[]{},Integer.class);
+
+            //if query returns null
+            if(rentBikes == null){
+                rentBikes = 0;
+            }
+
             availableBikes = allActiveBikes - rentBikes;
         }catch (EmptyResultDataAccessException e){
             log.error("", e);
