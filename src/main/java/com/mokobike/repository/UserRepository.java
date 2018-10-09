@@ -10,4 +10,6 @@ public interface UserRepository{
     List<User> findAllUsers(int page, int size);
 
     int usersCount();
+
+    User findByID(Long id);
 }

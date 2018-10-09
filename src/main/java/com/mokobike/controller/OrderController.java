@@ -1,11 +1,15 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.Order;
+import com.mokobike.domain.User;
 import com.mokobike.exceptions.NoBikeAvailableException;
+import com.mokobike.repository.UserRepository;
+import com.mokobike.service.MailSender;
 import com.mokobike.repository.BikeRepository;
 import com.mokobike.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.mokobike.exceptions.NotFoundException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +27,14 @@ public class OrderController extends Controller{
 
     @Autowired
     BikeRepository bikeRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    @Qualifier("gMailSender")
+    MailSender mailSender;
+
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN_USER')")
@@ -61,6 +73,9 @@ public class OrderController extends Controller{
             orderID = orderRepository.findLatestOrder().getId();
         }
 
+        User user = userRepository.findByID(order.getUserId());
+        String email = user.getEmail();
+        mailSender.sendMail("xxxx" , "email", "subject", "body");
         return orderID;
     }
 
