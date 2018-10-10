@@ -1,5 +1,7 @@
 package com.mokobike.service;
 
+import com.mokobike.domain.Order;
+import com.mokobike.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -15,9 +17,10 @@ public class MailContentBuilder {
         this.templateEngine = templateEngine;
     }
 
-    public String build(String message){
+    public String build(Order order, User user){
         Context context = new Context();
-        context.setVariable("message", message);
-        return templateEngine.process("newOrderTemplate", context);
+        context.setVariable("order", order);
+        context.setVariable("user", user);
+        return templateEngine.process("mail/newOrderTemplate", context);
     }
 }

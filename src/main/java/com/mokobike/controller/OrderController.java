@@ -70,12 +70,13 @@ public class OrderController extends Controller{
             throw new NoBikeAvailableException(dateFrom, dateTo, availableAdultBikes, availableChildBikes);
         }else{
             orderRepository.save(order);
-            orderID = orderRepository.findLatestOrder().getId();
+            order = orderRepository.findLatestOrder();
+            orderID = order.getId();
         }
 
         User user = userRepository.findByID(order.getUserId());
-        String email = user.getEmail();
-        mailSender.sendMail("xxxx" , email, "Order " + orderID, "Your order number " + orderID + " has been received");
+        mailSender.sendMail(order, user);
+
         return orderID;
     }
 
