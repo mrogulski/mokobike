@@ -57,7 +57,7 @@ public class OrderController extends Controller{
 
     @PostMapping
     @ResponseBody
-    public Long save(@RequestBody Order order){
+    public Long save(@RequestBody Order order)throws Exception{
         
         Long orderID;
 
@@ -75,7 +75,7 @@ public class OrderController extends Controller{
 
         User user = userRepository.findByID(order.getUserId());
         String email = user.getEmail();
-        mailSender.sendMail("xxxx" , "email", "subject", "body");
+        mailSender.sendMail("xxxx" , email, "Order " + orderID, "Your order number " + orderID + " has been received");
         return orderID;
     }
 

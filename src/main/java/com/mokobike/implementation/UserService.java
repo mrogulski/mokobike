@@ -18,6 +18,7 @@ public class UserService implements UserRepository{
             "\tapp_user.password,\n" +
             "\tapp_user.username,\n" +
             "\tapp_user.role_id,\n" +
+            "\tapp_user.email,\n" +
             "\tapp_role.description,\n" +
             "\tapp_role.role_name\n" +
             "from app_user, app_role \n" +
@@ -31,6 +32,7 @@ public class UserService implements UserRepository{
             "\tapp_user.password,\n" +
             "\tapp_user.username,\n" +
             "\tapp_user.role_id,\n" +
+            "\tapp_user.email,\n" +
             "\tapp_role.description,\n" +
             "\tapp_role.role_name\n" +
             "from app_user, app_role \n" +
@@ -46,6 +48,7 @@ public class UserService implements UserRepository{
             "\tapp_user.password,\n" +
             "\tapp_user.username,\n" +
             "\tapp_user.role_id,\n" +
+            "\tapp_user.email,\n" +
             "\tapp_role.description,\n" +
             "\tapp_role.role_name\n" +
             "from app_user, app_role \n" +
