@@ -12,4 +12,6 @@ public interface UserRepository{
     int usersCount();
 
     User findByID(Long id);
+
+    Long save(User user);
 }

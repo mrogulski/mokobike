@@ -45,7 +45,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
-                        "/new_order").permitAll()
+                        "/new_order",
+                        "/users/new").permitAll()
                 .antMatchers("/**" ).authenticated();
 
     }

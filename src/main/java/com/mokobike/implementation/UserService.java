@@ -55,7 +55,10 @@ public class UserService implements UserRepository{
             "where app_user.role_id= app_role.id \n" +
             "and app_user.id =  ?";
 
+    private static final String SQL_SAVE_USER = "insert into app_user (first_name, last_name, password, username, role_id, email) values (?, ?, ?, ?, ?, ?) returning id";
+
     public static final UserMapper USER_MAPPER = new UserMapper();
+
 
 
     @Autowired
@@ -80,5 +83,10 @@ public class UserService implements UserRepository{
     @Override
     public User findByID(Long id) {
         return jdbcTemplate.queryForObject(SQL_SELECT_USER_BY_ID, USER_MAPPER, id);
+    }
+
+    @Override
+    public Long save(User user) {
+        return new Long(jdbcTemplate.queryForObject(SQL_SAVE_USER, new Object[]{user.getFirstName(), user.getLastName(), null, user.getFirstName() +  "." + user.getLastName(), 1, user.getEmail()}, Integer.class));
     }
 }

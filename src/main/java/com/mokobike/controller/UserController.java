@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     @ResponseBody
     public List<Object> getUsers(
@@ -36,6 +36,13 @@ public class UserController {
         response.add(users);
 
         return response;
+    }
+
+
+    @PostMapping(value = "/new")
+    @ResponseBody
+    public Long save(@RequestBody User user){
+        return userRepository.save(user);
     }
 
 }
