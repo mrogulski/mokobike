@@ -24,5 +24,30 @@ where id = 3
 --SQL_SELECT_ACTIVE_BIKES_COUNT
 select * from bikes where bike_type = 'ADULT' and bike_condition not in ('TRASHED')
 
+--return whole record
+insert into bikes(
+  reg_number,
+  producer,
+  model,
+  bike_type,
+  bike_condition,
+  rental_price,
+  purchase_amount,
+  date_of_purchase,
+  in_use
+)values(
+'WW9898',
+'Cross',
+'AMD-500',
+'ADULT',
+'NEW',
+50,
+1200,
+now(),
+false
+) RETURNING *;
+
+
 --SQL_SELECT_RENT_BIKES_COUNT
 select sum(adult_bike) from orders where date_from >= '2012-04-23 20:25:00' and date_to <= '2012-04-24 20:25:43'
+
