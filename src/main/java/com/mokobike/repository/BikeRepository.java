@@ -1,10 +1,7 @@
 package com.mokobike.repository;
 
 import com.mokobike.domain.Bike;
-
-import java.util.Date;
 import java.util.List;
-
 
 public interface BikeRepository {
 
