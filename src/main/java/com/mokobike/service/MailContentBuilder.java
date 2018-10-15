@@ -17,10 +17,10 @@ public class MailContentBuilder {
         this.templateEngine = templateEngine;
     }
 
-    public String build(Order order, User user){
+    public String build(Order order, User user, String templateName){
         Context context = new Context();
         context.setVariable("order", order);
         context.setVariable("user", user);
-        return templateEngine.process("mail/newOrderTemplate", context);
+        return templateEngine.process("mail/"+ templateName, context);
     }
 }

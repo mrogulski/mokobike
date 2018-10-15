@@ -18,9 +18,21 @@ public class MailSender {
     @Autowired
     MailContentBuilder mailContentBuilder;
 
+    String subject;
+
+    String templateName;
+
     public void sendMail(Order order, User user) throws Exception{
 
-        String subject = "Twoje zamówienie zostało zarejestrowane!";
+        String status = order.getStatus();
+        switch (status){
+            case "NEW"          :   subject = "Twoje zamówienie zostało zarejestrowane!";
+                                    break;
+            case "IN PROGRESS"  :   subject = "Twoje zamówienie zostało przyjęte do realizacji!";
+                                    break;
+            case "CANCELLED"    :   subject = "Twoje zamówienie zostało anulowane!";
+                                    break;
+        }
 
         MimeMessage mail = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, true);
@@ -28,10 +40,14 @@ public class MailSender {
         helper.setTo(user.getEmail());
         helper.setSubject(subject);
 
-        String content = mailContentBuilder.build(order, user);
+        String content = mailContentBuilder.build(order, user, templateName);
         helper.setText(content, true);
 
         javaMailSender.send(mail);
 
+    }
+
+    public void sendMail(User user) throws Exception{
+        //TODO - user registration
     }
 }

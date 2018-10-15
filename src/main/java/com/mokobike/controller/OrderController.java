@@ -1,15 +1,12 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.Order;
-import com.mokobike.domain.User;
 import com.mokobike.exceptions.NoBikeAvailableException;
-import com.mokobike.repository.UserRepository;
-import com.mokobike.service.MailSender;
 import com.mokobike.repository.BikeRepository;
 import com.mokobike.repository.OrderRepository;
+import com.mokobike.service.NotifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.mokobike.exceptions.NotFoundException;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +26,7 @@ public class OrderController extends Controller{
     BikeRepository bikeRepository;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    @Qualifier("gMailSender")
-    MailSender mailSender;
-
+    NotifyService notifyService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN_USER')")
@@ -74,8 +66,7 @@ public class OrderController extends Controller{
             orderID = order.getId();
         }
 
-        User user = userRepository.findByID(order.getUserId());
-        mailSender.sendMail(order, user);
+        notifyService.notify(order);
 
         return orderID;
     }
@@ -93,24 +84,27 @@ public class OrderController extends Controller{
 
 
     @DeleteMapping(value = "/{order_id}" )
-    public void deleteOrder(@PathVariable("order_id") long orderID) {
+    public void deleteOrder(@PathVariable("order_id") long orderID) throws Exception{
         Order order = orderRepository.findByID(orderID);
         if(order == null){
             throw new NotFoundException(orderID);
         }else{
             orderRepository.delete(orderID);
+            notifyService.notify(order);
         }
         logger.info("someone trying to delete order number " + orderID);
     }
 
     @PatchMapping(value = "/{order_id}")
     @ResponseBody
-    public Order updateOrder(@PathVariable("order_id") long orderID, @RequestBody Order order){
+    public Order updateOrder(@PathVariable("order_id") long orderID, @RequestBody Order order) throws Exception{
         order.setId(orderID);
         Order updatedOrder = orderRepository.update(order);
         if(updatedOrder == null){
             throw new NotFoundException(orderID);
         }
+        notifyService.notify(order);
+        logger.info("someone trying to update order number " + orderID);
         return updatedOrder;
     }
 }
