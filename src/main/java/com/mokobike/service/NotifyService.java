@@ -24,8 +24,4 @@ public class NotifyService {
         user = userRepository.findByID(order.getUserId());
         mailSender.sendMail(order, user);
     }
-
-    public void notify(User user) throws Exception{
-        //TODO user registration mail
-    }
 }
