@@ -1,6 +1,7 @@
 package com.mokobike.implementation;
 
 import com.mokobike.domain.User;
+import com.mokobike.mapper.PoorUserMapper;
 import com.mokobike.mapper.UserMapper;
 import com.mokobike.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class UserService implements UserRepository{
             "where app_user.role_id= app_role.id \n" +
             "and app_user.username =  ?";
 
-    private static final String SQL_SELECT_ALL_USERS = "select \n" +
+    private static final String SQL_SELECT_ALL_USERS_PAGINATION = "select \n" +
             "\tapp_user.id,\n" +
             "\tapp_user.first_name,\n" +
             "\tapp_user.last_name,\n" +
@@ -38,6 +39,8 @@ public class UserService implements UserRepository{
             "from app_user, app_role \n" +
             "where app_user.role_id= app_role.id  \n" +
             "order by id limit ? offset ?";
+
+    private static final String SQL_SELECT_ALL_USERS = "select * from app_user";
 
     private static final String SQL_SELECT_ALL_USERS_COUNT = "select count(*) from app_user";
 
@@ -58,6 +61,7 @@ public class UserService implements UserRepository{
     private static final String SQL_SAVE_USER = "insert into app_user (first_name, last_name, password, username, role_id, email) values (?, ?, ?, ?, ?, ?) returning id";
 
     public static final UserMapper USER_MAPPER = new UserMapper();
+    public static final PoorUserMapper POOR_USER_MAPPER = new PoorUserMapper();
 
 
 
@@ -72,7 +76,12 @@ public class UserService implements UserRepository{
     @Override
     public List<User> findAllUsers(int page, int size) {
         int offset = page * size - size;
-        return jdbcTemplate.query(SQL_SELECT_ALL_USERS, USER_MAPPER, size, offset);
+        return jdbcTemplate.query(SQL_SELECT_ALL_USERS_PAGINATION, USER_MAPPER, size, offset);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return jdbcTemplate.query(SQL_SELECT_ALL_USERS, POOR_USER_MAPPER);
     }
 
     @Override

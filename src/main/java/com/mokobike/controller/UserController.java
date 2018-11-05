@@ -21,21 +21,19 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     @ResponseBody
-    public List<Object> getUsers(
-            @RequestParam(name="page") int page,
-            @RequestParam(name="size") int size
+    public List<User> getUsers(
+            @RequestParam(name="page", required = false) Integer page,
+            @RequestParam(name="size", required = false) Integer size
     ){
-        List<Object> response = new ArrayList<>();
-        Map<String, Integer> count = new HashMap<>();
         List<User> users;
 
-        users = userRepository.findAllUsers(page, size);
-        count.put("total_users", userRepository.usersCount());
+        if(page != null & size != null){
+            users = userRepository.findAllUsers(page, size);
+        }else{
+            users = userRepository.findAllUsers();
+        }
 
-        response.add(count);
-        response.add(users);
-
-        return response;
+        return users;
     }
 
 
