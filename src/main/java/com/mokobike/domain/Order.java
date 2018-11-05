@@ -16,7 +16,7 @@ public class Order {
     private Date createdDate;
     private Date dateFrom;
     private Date dateTo;
-    private Long userId;
+    private User user;
     private Integer adultBike;
     private Integer childBike;
     private Integer helmet;

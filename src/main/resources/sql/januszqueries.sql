@@ -51,3 +51,30 @@ false
 --SQL_SELECT_RENT_BIKES_COUNT
 select sum(adult_bike) from orders where date_from >= '2012-04-23 20:25:00' and date_to <= '2012-04-24 20:25:43'
 
+--SQL select and join orders and users
+SELECT
+orders.id,
+orders.status,
+orders.created_date,
+orders.date_from,
+orders.date_to,
+orders.user_id,
+orders.adult_bike,
+orders.child_bike,
+orders.helmet,
+orders.lock,
+orders.pickup,
+orders.pickup_from,
+orders.pickup_to,
+orders.pickup_distance,
+orders.pickup_value,
+orders.initial_value,
+orders.final_value,
+app_user.id as "user_id",
+app_user.username,
+app_user.first_name,
+app_user.last_name,
+app_user.email
+FROM orders inner join app_user on orders.user_id = app_user.id
+
+

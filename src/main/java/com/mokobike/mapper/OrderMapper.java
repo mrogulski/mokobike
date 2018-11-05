@@ -2,6 +2,7 @@ package com.mokobike.mapper;
 
 import com.mokobike.domain.Order;
 
+import com.mokobike.domain.User;
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,13 @@ public class OrderMapper implements RowMapper<Order> {
                 rs.getDate("created_date"),
                 rs.getDate("date_from"),
                 rs.getDate("date_to"),
-                rs.getLong("user_id"),
+                new User(
+                        rs.getLong("user_id"),
+                        rs.getString("username"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email")
+                ),
                 rs.getInt("adult_bike"),
                 rs.getInt("child_bike"),
                 rs.getInt("helmet"),

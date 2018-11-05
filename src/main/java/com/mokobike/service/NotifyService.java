@@ -21,7 +21,7 @@ public class NotifyService {
 
 
     public void notify(Order order) throws Exception{//TODO change to try catch in case of failed when sending mail
-        user = userRepository.findByID(order.getUserId());
+        user = userRepository.findByID(order.getUser().getId());
         mailSender.sendMail(order, user);
     }
 }

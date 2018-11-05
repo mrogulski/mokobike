@@ -17,11 +17,103 @@ public class OrderService implements OrderRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final String SQL_SELECT_ORDER_BY_ID = "select * from orders where id = ?";
-    private static final String SQL_SELECT_ORDERS_BY_USERID = "select * from orders where user_id = ?";
+    private static final String SQL_SELECT_ORDER_BY_ID = "SELECT \n" +
+            "orders.id, \n" +
+            "orders.status, \n" +
+            "orders.created_date, \n" +
+            "orders.date_from, \n" +
+            "orders.date_to, \n" +
+            "orders.user_id, \n" +
+            "orders.adult_bike, \n" +
+            "orders.child_bike, \n" +
+            "orders.helmet, \n" +
+            "orders.lock, \n" +
+            "orders.pickup, \n" +
+            "orders.pickup_from, \n" +
+            "orders.pickup_to, \n" +
+            "orders.pickup_distance, \n" +
+            "orders.pickup_value, \n" +
+            "orders.initial_value, \n" +
+            "orders.final_value, \n" +
+            "app_user.id as \"user_id\",\n" +
+            "app_user.username,\n" +
+            "app_user.first_name,\n" +
+            "app_user.last_name,\n" +
+            "app_user.email\n" +
+            "FROM orders inner join app_user on orders.user_id = app_user.id where orders.id = ?";
+    private static final String SQL_SELECT_ORDERS_BY_USERID = "SELECT \n" +
+            "orders.id, \n" +
+            "orders.status, \n" +
+            "orders.created_date, \n" +
+            "orders.date_from, \n" +
+            "orders.date_to, \n" +
+            "orders.user_id, \n" +
+            "orders.adult_bike, \n" +
+            "orders.child_bike, \n" +
+            "orders.helmet, \n" +
+            "orders.lock, \n" +
+            "orders.pickup, \n" +
+            "orders.pickup_from, \n" +
+            "orders.pickup_to, \n" +
+            "orders.pickup_distance, \n" +
+            "orders.pickup_value, \n" +
+            "orders.initial_value, \n" +
+            "orders.final_value, \n" +
+            "app_user.id as \"user_id\",\n" +
+            "app_user.username,\n" +
+            "app_user.first_name,\n" +
+            "app_user.last_name,\n" +
+            "app_user.email\n" +
+            "FROM orders inner join app_user on orders.user_id = app_user.id where user_id = ?";
     private static final String SQL_SELECT_LATEST_ORDER = "select * from orders order by id desc limit 1";
-    private static final String SQL_SELECT_ALL_ORDERS = "select * from orders";
-    private static final String SQL_SELECT_ALL_ORDERS_PAGINATION = "select * from orders order by id limit ? offset ?";
+    private static final String SQL_SELECT_ALL_ORDERS = "SELECT \n" +
+            "orders.id, \n" +
+            "orders.status, \n" +
+            "orders.created_date, \n" +
+            "orders.date_from, \n" +
+            "orders.date_to, \n" +
+            "orders.user_id, \n" +
+            "orders.adult_bike, \n" +
+            "orders.child_bike, \n" +
+            "orders.helmet, \n" +
+            "orders.lock, \n" +
+            "orders.pickup, \n" +
+            "orders.pickup_from, \n" +
+            "orders.pickup_to, \n" +
+            "orders.pickup_distance, \n" +
+            "orders.pickup_value, \n" +
+            "orders.initial_value, \n" +
+            "orders.final_value, \n" +
+            "app_user.id as \"user_id\",\n" +
+            "app_user.username,\n" +
+            "app_user.first_name,\n" +
+            "app_user.last_name,\n" +
+            "app_user.email\n" +
+            "FROM orders inner join app_user on orders.user_id = app_user.id\n";
+    private static final String SQL_SELECT_ALL_ORDERS_PAGINATION = "SELECT \n" +
+            "orders.id, \n" +
+            "orders.status, \n" +
+            "orders.created_date, \n" +
+            "orders.date_from, \n" +
+            "orders.date_to, \n" +
+            "orders.user_id, \n" +
+            "orders.adult_bike, \n" +
+            "orders.child_bike, \n" +
+            "orders.helmet, \n" +
+            "orders.lock, \n" +
+            "orders.pickup, \n" +
+            "orders.pickup_from, \n" +
+            "orders.pickup_to, \n" +
+            "orders.pickup_distance, \n" +
+            "orders.pickup_value, \n" +
+            "orders.initial_value, \n" +
+            "orders.final_value, \n" +
+            "app_user.id as \"user_id\",\n" +
+            "app_user.username,\n" +
+            "app_user.first_name,\n" +
+            "app_user.last_name,\n" +
+            "app_user.email\n" +
+            "FROM orders inner join app_user on orders.user_id = app_user.id order by id limit ? offset ?";
     private static final String SQL_SELECT_ALL_ORDERS_COUNT = "select count(*) from orders";
     private static final String SQL_INSERT_INTO_ORDER =
             "insert into orders(" +
@@ -101,7 +193,7 @@ public class OrderService implements OrderRepository {
                 order.getCreatedDate(),
                 order.getDateFrom(),
                 order.getDateTo(),
-                order.getUserId(),
+                order.getUser(),
                 order.getAdultBike(),
                 order.getChildBike(),
                 order.getHelmet(),
