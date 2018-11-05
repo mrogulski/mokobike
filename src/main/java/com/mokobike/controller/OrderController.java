@@ -31,21 +31,21 @@ public class OrderController extends Controller{
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     @ResponseBody
-    public List<Object> getOrders(
-            @RequestParam(name="page") int page,
-            @RequestParam(name="size") int size
+    public List<Order> getOrders(
+            @RequestParam(name="page", required = false) Integer page,
+            @RequestParam(name="size", required =  false) Integer size
     ){
-        List<Object> response = new ArrayList<>();
-        Map<String, Integer> count = new HashMap<>();
         List<Order> orders;
-        orders = orderRepository.findAllOrders(page, size);
-        count.put("total_orders", orderRepository.ordersCount());
 
-        response.add(count);
-        response.add(orders);
-
-        return response;
+        if(page != null & size != null){
+            orders = orderRepository.findAllOrders(page, size);
+        }
+        else {
+            orders =  orderRepository.findAllOrders();
+        }
+        return orders;
     }
+
 
     @PostMapping
     @ResponseBody

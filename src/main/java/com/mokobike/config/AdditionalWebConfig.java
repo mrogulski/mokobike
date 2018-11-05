@@ -42,6 +42,7 @@ public class AdditionalWebConfig {
 
 
     //https://medium.com/@muiruri/spring-oauth2-and-cors-configuration-3529337525b4
+   // https://stackoverflow.com/questions/30632200/standalone-spring-oauth2-jwt-authorization-server-cors/30638914#30638914
     @Component
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public class SimpleCorsFilter implements Filter {
