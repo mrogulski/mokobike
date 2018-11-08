@@ -91,7 +91,7 @@ public class OrderController extends Controller{
             throw new NotFoundException(orderID);
         }else{
             orderRepository.delete(orderID);
-            notifyService.notify(order);
+//            notifyService.notify(order);
         }
         logger.info("someone trying to delete order number " + orderID);
     }
@@ -104,7 +104,7 @@ public class OrderController extends Controller{
         if(updatedOrder == null){
             throw new NotFoundException(orderID);
         }
-        notifyService.notify(order);
+//        notifyService.notify(order);
         logger.info("someone trying to update order number " + orderID);
         return updatedOrder;
     }
