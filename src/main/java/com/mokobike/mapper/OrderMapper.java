@@ -13,9 +13,9 @@ public class OrderMapper implements RowMapper<Order> {
         Order order = new Order(
                 rs.getLong("id"),
                 rs.getString("status"),
-                rs.getDate("created_date"),
-                rs.getDate("date_from"),
-                rs.getDate("date_to"),
+                rs.getTimestamp("created_date"),
+                rs.getTimestamp("date_from"),
+                rs.getTimestamp("date_to"),
                 new User(
                         rs.getLong("user_id"),
                         rs.getString("username"),
