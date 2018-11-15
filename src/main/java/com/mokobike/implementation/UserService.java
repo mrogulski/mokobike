@@ -60,6 +60,8 @@ public class UserService implements UserRepository{
 
     private static final String SQL_SAVE_USER = "insert into app_user (first_name, last_name, password, username, role_id, email) values (?, ?, ?, ?, ?, ?) returning id";
 
+    private static final String SQL_SELECT_FILTERED_USERS = "SELECT * FROM app_user WHERE concat(first_name, ' ',last_name) ILIKE ?";
+
     public static final UserMapper USER_MAPPER = new UserMapper();
     public static final PoorUserMapper POOR_USER_MAPPER = new PoorUserMapper();
 
@@ -77,6 +79,12 @@ public class UserService implements UserRepository{
     public List<User> findAllUsers(int page, int size) {
         int offset = page * size - size;
         return jdbcTemplate.query(SQL_SELECT_ALL_USERS_PAGINATION, USER_MAPPER, size, offset);
+    }
+
+    @Override
+    public List<User> findAllUsers(String q) {
+
+            return jdbcTemplate.query(SQL_SELECT_FILTERED_USERS, POOR_USER_MAPPER, new String[]{"%" +q +"%"});
     }
 
     @Override

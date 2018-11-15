@@ -23,13 +23,17 @@ public class UserController {
     @ResponseBody
     public List<User> getUsers(
             @RequestParam(name="page", required = false) Integer page,
-            @RequestParam(name="size", required = false) Integer size
+            @RequestParam(name="size", required = false) Integer size,
+            @RequestParam(name="q", required = false) String q
     ){
         List<User> users;
 
         if(page != null & size != null){
             users = userRepository.findAllUsers(page, size);
-        }else{
+        }else if(q != null){
+            users = userRepository.findAllUsers(q);
+        }
+        else{
             users = userRepository.findAllUsers();
         }
 
