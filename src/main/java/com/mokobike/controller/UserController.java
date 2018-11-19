@@ -47,5 +47,11 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    @GetMapping(value = "/{user_id}")
+    @ResponseBody
+    public User getUserByID(@PathVariable(name="user_id", required = true) Long user_id){
+        return userRepository.findByID(user_id);
+    }
+
 }
 

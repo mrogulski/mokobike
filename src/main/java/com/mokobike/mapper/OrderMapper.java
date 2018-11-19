@@ -16,13 +16,14 @@ public class OrderMapper implements RowMapper<Order> {
                 rs.getTimestamp("created_date"),
                 rs.getTimestamp("date_from"),
                 rs.getTimestamp("date_to"),
-                new User(
-                        rs.getLong("user_id"),
-                        rs.getString("username"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("email")
-                ),
+//                new User(
+//                        rs.getLong("user_id"),
+//                        rs.getString("username"),
+//                        rs.getString("first_name"),
+//                        rs.getString("last_name"),
+//                        rs.getString("email")
+//                ),
+                rs.getInt("user_id"),
                 rs.getInt("adult_bike"),
                 rs.getInt("child_bike"),
                 rs.getInt("helmet"),

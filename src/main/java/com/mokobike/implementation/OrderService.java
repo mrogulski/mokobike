@@ -66,30 +66,7 @@ public class OrderService implements OrderRepository {
             "app_user.email\n" +
             "FROM orders inner join app_user on orders.user_id = app_user.id where user_id = ?";
     private static final String SQL_SELECT_LATEST_ORDER = "select * from orders order by id desc limit 1";
-    private static final String SQL_SELECT_ALL_ORDERS = "SELECT \n" +
-            "orders.id, \n" +
-            "orders.status, \n" +
-            "orders.created_date, \n" +
-            "orders.date_from, \n" +
-            "orders.date_to, \n" +
-            "orders.user_id, \n" +
-            "orders.adult_bike, \n" +
-            "orders.child_bike, \n" +
-            "orders.helmet, \n" +
-            "orders.lock, \n" +
-            "orders.pickup, \n" +
-            "orders.pickup_from, \n" +
-            "orders.pickup_to, \n" +
-            "orders.pickup_distance, \n" +
-            "orders.pickup_value, \n" +
-            "orders.initial_value, \n" +
-            "orders.final_value, \n" +
-            "app_user.id as \"user_id\",\n" +
-            "app_user.username,\n" +
-            "app_user.first_name,\n" +
-            "app_user.last_name,\n" +
-            "app_user.email\n" +
-            "FROM orders inner join app_user on orders.user_id = app_user.id\n";
+    private static final String SQL_SELECT_ALL_ORDERS = "SELECT * FROM orders";
     private static final String SQL_SELECT_ALL_ORDERS_PAGINATION = "SELECT \n" +
             "orders.id, \n" +
             "orders.status, \n" +
