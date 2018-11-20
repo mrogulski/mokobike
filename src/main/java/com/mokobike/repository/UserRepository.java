@@ -18,4 +18,6 @@ public interface UserRepository{
     User findByID(Long id);
 
     Long save(User user);
+
+    String findFullName(Long user_id);
 }

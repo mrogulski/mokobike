@@ -53,5 +53,11 @@ public class UserController {
         return userRepository.findByID(user_id);
     }
 
+    @GetMapping(value = "/{user_id}/fullname")
+    @ResponseBody
+    public String getFullName(@PathVariable(name="user_id", required = true) Long user_id){
+        return userRepository.findFullName(user_id);
+    }
+
 }
 

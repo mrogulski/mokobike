@@ -50,6 +50,8 @@ public class UserService implements UserRepository{
 
     private static final String SQL_SELECT_FILTERED_USERS = "SELECT * FROM app_user WHERE concat(first_name, ' ',last_name) ILIKE ?";
 
+    private static final String SQL_SELECT_USERS_FULLNAME_BY_ID = "select concat(first_name, ' ',last_name) from app_user where app_user.id =  ?";
+
     public static final UserMapper USER_MAPPER = new UserMapper();
     public static final PoorUserMapper POOR_USER_MAPPER = new PoorUserMapper();
 
@@ -93,5 +95,10 @@ public class UserService implements UserRepository{
     @Override
     public Long save(User user) {
         return new Long(jdbcTemplate.queryForObject(SQL_SAVE_USER, new Object[]{user.getFirstName(), user.getLastName(), null, user.getFirstName() +  "." + user.getLastName(), 1, user.getEmail()}, Integer.class));
+    }
+
+    @Override
+    public String findFullName(Long user_id) {
+       return new String(jdbcTemplate.queryForObject(SQL_SELECT_USERS_FULLNAME_BY_ID, new Object[] { user_id }, String.class));
     }
 }

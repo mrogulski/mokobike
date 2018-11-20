@@ -53,21 +53,22 @@ public class OrderController extends Controller{
     public Long save(@RequestBody Order order)throws Exception{
         
         Long orderID;
+//
+//        String dateFrom = order.getDateFrom().toString();
+//        String dateTo = order.getDateTo().toString();
+//        Integer availableAdultBikes = bikeRepository.findAvailableBikes(dateFrom, dateTo, "ADULT");
+//        Integer availableChildBikes = bikeRepository.findAvailableBikes(dateFrom, dateTo, "CHILD");
+//
+//        if(availableAdultBikes < order.getAdultBike() || availableChildBikes < order.getChildBike()){
+//            throw new NoBikeAvailableException(dateFrom, dateTo, availableAdultBikes, availableChildBikes);
+//        }else{
 
-        String dateFrom = order.getDateFrom().toString();
-        String dateTo = order.getDateTo().toString();
-        Integer availableAdultBikes = bikeRepository.findAvailableBikes(dateFrom, dateTo, "ADULT");
-        Integer availableChildBikes = bikeRepository.findAvailableBikes(dateFrom, dateTo, "CHILD");
-
-        if(availableAdultBikes < order.getAdultBike() || availableChildBikes < order.getChildBike()){
-            throw new NoBikeAvailableException(dateFrom, dateTo, availableAdultBikes, availableChildBikes);
-        }else{
             orderRepository.save(order);
             order = orderRepository.findLatestOrder();
             orderID = order.getId();
-        }
-
-        notifyService.notify(order);
+//        }
+//
+//        notifyService.notify(order);
 
         return orderID;
     }
