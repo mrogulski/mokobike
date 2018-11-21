@@ -62,7 +62,6 @@ public class OrderController extends Controller{
 //        if(availableAdultBikes < order.getAdultBike() || availableChildBikes < order.getChildBike()){
 //            throw new NoBikeAvailableException(dateFrom, dateTo, availableAdultBikes, availableChildBikes);
 //        }else{
-
             orderRepository.save(order);
             order = orderRepository.findLatestOrder();
             orderID = order.getId();
