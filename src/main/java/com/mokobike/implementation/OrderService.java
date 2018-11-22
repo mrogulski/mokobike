@@ -117,6 +117,7 @@ public class OrderService implements OrderRepository {
                     "status = ?," +
                     "date_from = ?," +
                     "date_to = ?," +
+                    "user_id = ?," +
                     "adult_bike = ?," +
                     "child_bike = ?," +
                     "helmet = ?," +
@@ -198,6 +199,7 @@ public class OrderService implements OrderRepository {
                     order.getStatus(),
                     order.getDateFrom(),
                     order.getDateTo(),
+                    order.getUser(),
                     order.getAdultBike(),
                     order.getChildBike(),
                     order.getHelmet(),
