@@ -16,15 +16,12 @@ public class AvailableBikesController extends Controller {
     @GetMapping
     @RequestMapping(value = "/bikes/availability")
     @ResponseBody
-    public HashMap<String, Integer> checkAvailableBikes(
+    public Integer checkAvailableBikes(
             @RequestParam(name="dateFrom")  String dateFrom,
             @RequestParam(name="dateTo")  String  dateTo,
             @RequestParam(name="type")String type
     ){
-        HashMap<String, Integer> availableBikes = new HashMap<>();
-        availableBikes.put(type.toLowerCase() + "_bikes", bikeRepository.findAvailableBikes(dateFrom, dateTo, type));
-
-        return availableBikes;
+        return bikeRepository.findAvailableBikes(dateFrom, dateTo, type);
 
     }
 

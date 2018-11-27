@@ -39,6 +39,21 @@ public class BikeController extends Controller{
         return response;
     }
 
+    @GetMapping(value = "/total" )
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    @ResponseBody
+    public Integer getBikesCount(@RequestParam(name="type", required = false) String type){
+        Integer total;
+        if(type != null ){
+           total = 12;
+        }
+        else {
+         total = 30;
+        }
+
+        return total;
+    }
+
     @PostMapping
     @ResponseBody
     public Long save(@RequestBody Bike bike){
@@ -83,4 +98,5 @@ public class BikeController extends Controller{
         }
         return updatedBike;
     }
+
 }
