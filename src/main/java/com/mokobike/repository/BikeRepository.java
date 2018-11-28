@@ -15,6 +15,8 @@ public interface BikeRepository {
 
     int bikesCount();
 
+    int bikesCount(String type);
+
     void save(Bike bike);
 
     Bike update(Bike bike);

@@ -45,10 +45,10 @@ public class BikeController extends Controller{
     public Integer getBikesCount(@RequestParam(name="type", required = false) String type){
         Integer total;
         if(type != null ){
-           total = 12;
+           total = bikeRepository.bikesCount(type);
         }
         else {
-         total = 30;
+         total = bikeRepository.bikesCount();
         }
 
         return total;

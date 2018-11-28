@@ -14,6 +14,8 @@ public interface OrderRepository {
 
     List<Order> findAllOrders();
 
+    List<Order> findOrdersByDate(String start, String end);
+
     int ordersCount();
 
     void save(Order order);

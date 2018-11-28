@@ -47,6 +47,16 @@ public class OrderController extends Controller{
         return orders;
     }
 
+    @GetMapping(value = "/date")
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    @ResponseBody
+    public List<Order> getOrdersByDate(
+            @RequestParam(name="start", required = true) String start,
+            @RequestParam(name="end", required =  true) String end
+    ){
+        return orderRepository.findOrdersByDate(start, end);
+    }
+
 
     @PostMapping
     @ResponseBody

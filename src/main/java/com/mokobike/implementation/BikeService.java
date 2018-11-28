@@ -10,7 +10,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -55,7 +54,8 @@ public class BikeService implements BikeRepository {
             "where id = ?";
     private static final String SQL_DELETE_BIKE = "update bikes set bike_condition = 'TRASHED' where id = ?";
 
-    private static final String SQL_SELECT_ACTIVE_BIKES_COUNT = "select count(*) from bikes where bike_type = ? and bike_condition not in ('TRASHED')";
+    private static final String SQL_SELECT_ACTIVE_BIKES_TYPES_COUNT = "select count(*) from bikes where bike_type = ? and bike_condition not in ('TRASHED')";
+    private static final String SQL_SELECT_ACTIVE_BIKES_COUNT = "select count(*) from bikes where bike_condition not in ('TRASHED')";
 
     @Override
     public Bike findByID(Long ID) {
@@ -82,7 +82,12 @@ public class BikeService implements BikeRepository {
 
     @Override
     public int bikesCount() {
-        return jdbcTemplate.queryForObject(SQL_SELECT_ALL_BIKES_COUNT, new Object[]{}, Integer.class);
+        return jdbcTemplate.queryForObject(SQL_SELECT_ACTIVE_BIKES_COUNT, new Object[]{}, Integer.class);
+    }
+
+    @Override
+    public int bikesCount(String type) {
+        return jdbcTemplate.queryForObject(SQL_SELECT_ACTIVE_BIKES_TYPES_COUNT, new Object[]{type},Integer.class);
     }
 
     @Override
@@ -143,7 +148,7 @@ public class BikeService implements BikeRepository {
     public Integer findAvailableBikes(String dateFrom, String dateTo, String type) {
         Integer availableBikes;
         try{
-            Integer allActiveBikes = jdbcTemplate.queryForObject(SQL_SELECT_ACTIVE_BIKES_COUNT, new Object[]{type},Integer.class);
+            Integer allActiveBikes = jdbcTemplate.queryForObject(SQL_SELECT_ACTIVE_BIKES_TYPES_COUNT, new Object[]{type},Integer.class);
             String columnName = type.toLowerCase() + "_bike";
             Integer rentBikes = jdbcTemplate.queryForObject("select sum(" + columnName + ") from orders where date_from >= '" + dateFrom +"' and date_to <= '" + dateTo + "'", new Object[]{},Integer.class);
 

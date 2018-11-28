@@ -160,6 +160,11 @@ public class OrderService implements OrderRepository {
     }
 
     @Override
+    public List<Order> findOrdersByDate(String start, String end) {
+        return jdbcTemplate.query( "select * from orders where date_from >= '" + start + "' and date_to <= '" + end + "'", ORDER_MAPPER);
+    }
+
+    @Override
     public int ordersCount() {
         return jdbcTemplate.queryForObject(SQL_SELECT_ALL_ORDERS_COUNT, new Object[]{}, Integer.class);
     }
