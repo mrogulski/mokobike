@@ -20,7 +20,9 @@ public class UserMapper implements RowMapper<User> {
                         rs.getString("role_name"),
                         rs.getString("description")
                 ),
-                rs.getString("email")
+                rs.getString("email"),
+                rs.getString("address"),
+                rs.getInt("phone")
         );
         return user;
     }

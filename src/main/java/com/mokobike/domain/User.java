@@ -16,12 +16,16 @@ public class User {
     private String lastName;
     private Role role;
     private String email;
+    private String address;
+    private Integer phone;
 
-    public User(Long id, String username, String firstName, String lastName, String email) {
+    public User(Long id, String username, String firstName, String lastName, String email, String address, Integer phone) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.address = address;
+        this.phone = phone;
     }
 }

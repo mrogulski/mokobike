@@ -46,7 +46,7 @@ public class UserService implements UserRepository{
 
     private static final String SQL_SELECT_USER_BY_ID = "select * from app_user where app_user.id =  ?";
 
-    private static final String SQL_SAVE_USER = "insert into app_user (first_name, last_name, password, username, role_id, email) values (?, ?, ?, ?, ?, ?) returning id";
+    private static final String SQL_SAVE_USER = "insert into app_user (first_name, last_name, password, username, role_id, email, address, phone) values (?, ?, ?, ?, ?, ?, ?, ?) returning id";
 
     private static final String SQL_SELECT_FILTERED_USERS = "SELECT * FROM app_user WHERE concat(first_name, ' ',last_name) ILIKE ?";
 
@@ -94,7 +94,7 @@ public class UserService implements UserRepository{
 
     @Override
     public Long save(User user) {
-        return new Long(jdbcTemplate.queryForObject(SQL_SAVE_USER, new Object[]{user.getFirstName(), user.getLastName(), null, user.getFirstName() +  "." + user.getLastName(), 1, user.getEmail()}, Integer.class));
+        return new Long(jdbcTemplate.queryForObject(SQL_SAVE_USER, new Object[]{user.getFirstName(), user.getLastName(), null, user.getFirstName() +  "." + user.getLastName(), 1, user.getEmail(), user.getAddress(), user.getPhone()}, Integer.class));
     }
 
     @Override

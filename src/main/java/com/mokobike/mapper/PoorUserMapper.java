@@ -13,7 +13,9 @@ public class PoorUserMapper implements RowMapper<User> {
                 rs.getString("username"),
                 rs.getString("first_name"),
                 rs.getString("last_name"),
-                rs.getString("email")
+                rs.getString("email"),
+                rs.getString("address"),
+                rs.getInt("phone")
         );
         return user;
     }
