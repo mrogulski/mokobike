@@ -5,6 +5,7 @@ import com.mokobike.mapper.PoorUserMapper;
 import com.mokobike.mapper.UserMapper;
 import com.mokobike.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,8 @@ public class UserService implements UserRepository{
             "\tapp_user.username,\n" +
             "\tapp_user.role_id,\n" +
             "\tapp_user.email,\n" +
+            "\tapp_user.address,\n" +
+            "\tapp_user.phone,\n" +
             "\tapp_role.description,\n" +
             "\tapp_role.role_name\n" +
             "from app_user, app_role \n" +
@@ -34,6 +37,8 @@ public class UserService implements UserRepository{
             "\tapp_user.username,\n" +
             "\tapp_user.role_id,\n" +
             "\tapp_user.email,\n" +
+            "\tapp_user.address,\n" +
+            "\tapp_user.phone,\n" +
             "\tapp_role.description,\n" +
             "\tapp_role.role_name\n" +
             "from app_user, app_role \n" +
@@ -52,9 +57,11 @@ public class UserService implements UserRepository{
 
     private static final String SQL_SELECT_USERS_FULLNAME_BY_ID = "select concat(first_name, ' ',last_name) from app_user where app_user.id =  ?";
 
+    private static final String SQL_UPDATE_USER = "update app_user set first_name = ?, last_name = ?, username = ?, email = ?, address = ?, phone = ? where id = ?";
+
+
     public static final UserMapper USER_MAPPER = new UserMapper();
     public static final PoorUserMapper POOR_USER_MAPPER = new PoorUserMapper();
-
 
 
     @Autowired
@@ -100,5 +107,30 @@ public class UserService implements UserRepository{
     @Override
     public String findFullName(Long user_id) {
        return new String(jdbcTemplate.queryForObject(SQL_SELECT_USERS_FULLNAME_BY_ID, new Object[] { user_id }, String.class));
+    }
+
+    @Override
+    public User update(User user) {
+        User updatedUser;
+
+        try{
+            //first to check if user is available
+            jdbcTemplate.queryForObject(SQL_SELECT_USER_BY_ID, POOR_USER_MAPPER, user.getId());
+
+            jdbcTemplate.update(SQL_UPDATE_USER,
+                user.getFirstName(),
+                    user.getLastName(),
+                    user.getUsername(),
+                    user.getEmail(),
+                    user.getAddress(),
+                    user.getPhone(),
+                    user.getId()
+            );
+
+            updatedUser = jdbcTemplate.queryForObject(SQL_SELECT_USER_BY_ID, POOR_USER_MAPPER, user.getId());
+        }catch (EmptyResultDataAccessException e){
+            updatedUser = null;
+        }
+        return updatedUser;
     }
 }

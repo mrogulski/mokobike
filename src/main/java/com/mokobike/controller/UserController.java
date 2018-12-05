@@ -1,6 +1,7 @@
 package com.mokobike.controller;
 
 import com.mokobike.domain.User;
+import com.mokobike.exceptions.NotFoundException;
 import com.mokobike.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,6 +58,18 @@ public class UserController {
     @ResponseBody
     public String getFullName(@PathVariable(name="user_id", required = true) Long user_id){
         return userRepository.findFullName(user_id);
+    }
+
+    @PatchMapping(value = "/{user_id}")
+    @ResponseBody
+    public User updateUser(@PathVariable("user_id") long userID, @RequestBody User user) throws Exception{
+        user.setId(userID);
+        User updatedUser = userRepository.update(user);
+        if(updatedUser == null){
+            throw new NotFoundException(userID);
+        }
+
+        return updatedUser;
     }
 
 }

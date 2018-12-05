@@ -20,4 +20,6 @@ public interface UserRepository{
     Long save(User user);
 
     String findFullName(Long user_id);
+
+    User update(User user);
 }
